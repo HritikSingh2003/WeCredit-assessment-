@@ -1,0 +1,24 @@
+package main
+
+import (
+	"log/slog"
+	"os"
+)
+
+func main() {
+	// Create/Open a log file
+	logFile, err := os.OpenFile("/var/log/app/logs.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+
+	// Create a new logger with JSON
+	logger := slog.New(slog.NewJSONHandler(logFile, nil))
+
+	// Log messages 
+	logger.Info("This is an INFO message", "module", "main", "status", "running")
+	logger.Warn("This is a WARN message", "module", "main", "action", "retry")
+	logger.Debug("This is a DEBUG message", "module", "main", "debugging", true)
+	logger.Error("This is an ERROR message", "module", "main", "error", "something went wrong")
+}
