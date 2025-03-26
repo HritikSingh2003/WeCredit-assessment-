@@ -1,0 +1,17 @@
+package main
+
+import (
+	"log/slog"
+	"os"
+)
+
+func main() {
+	// Create a new logger with JSON 
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+
+	// Log messages
+	logger.Info("This is an INFO message", "module", "main", "status", "running")
+	logger.Warn("This is a WARN message", "module", "main", "action", "retry")
+	logger.Debug("This is a DEBUG message", "module", "main", "debugging", true)
+	logger.Error("This is an ERROR message", "module", "main", "error", "something went wrong")
+}
